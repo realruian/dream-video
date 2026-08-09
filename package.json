@@ -1,0 +1,35 @@
+{
+  "name": "dream-video",
+  "version": "0.1.0",
+  "description": "Agent-assisted short-video workflow powered by Dreamina Seedance 2.5",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "dream-video": "./bin/dream-video.js",
+    "canvas": "./bin/dream-video.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dream-video": "node --import tsx src/cli.ts",
+    "canvas": "node --import tsx src/cli.ts",
+    "test": "node --import tsx --test test/*.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.8.3"
+  },
+  "keywords": [
+    "ai",
+    "video",
+    "canvas",
+    "dreamina",
+    "seedance",
+    "grok",
+    "codex",
+    "agents"
+  ]
+}

@@ -1,0 +1,8 @@
+node_modules/
+*.log
+.DS_Store
+.env
+.env.local
+
+# Local DreamVideo workspace (run `dream-video init` after clone)
+canvas/
