@@ -1,4 +1,4 @@
-# Reel Video Dreamina
+# DreamVideo
 
 一个面向 Coding Agent 的本地 AI 短视频画布，以 **Dreamina Seedance 2.5** 作为默认视频模型。
 
@@ -58,8 +58,8 @@ dreamina multimodal2video \
 ## 安装
 
 ```bash
-git clone https://github.com/realruian/reel-video-dreamina.git
-cd reel-video-dreamina
+git clone https://github.com/realruian/dream-video.git
+cd dream-video
 npm install
 ```
 
