@@ -2,8 +2,8 @@
 
 ## Install checklist (start here)
 
-Before blaming the canvas CLI, check the **Grok account** that `grok login`
-uses. agent-canvas does not store or change these settings.
+Before blaming the DreamVideo CLI, check the **Grok account** that `grok login`
+uses. DreamVideo does not store or change these settings.
 
 1. **Interactive TUI only** (not `grok -p`):
 
@@ -20,7 +20,7 @@ uses. agent-canvas does not store or change these settings.
 3. Retry:
 
    ```bash
-   npm run canvas -- run --shot vid-1 --force
+   npm run dream-video -- run --shot vid-1 --force
    ```
 
 The API error below is what you see when step 1 is still “opt out” *or* the
@@ -68,7 +68,7 @@ account needs one — but only if you configure S3/R2 in `~/.grok/config.toml`:
 
 ```toml
 [tools.zdr_video_output_s3]
-bucket = "reelvideoproduction-boards"
+bucket = "dreamvideo-boards"
 region = "auto"
 endpoint = "https://<ACCOUNT_ID>.r2.cloudflarestorage.com"
 key_prefix = "canvas-relay/"
@@ -85,7 +85,7 @@ secret_access_key = "<same or read-only secret>"
 ```
 
 Create the R2 API token: Cloudflare dashboard → **R2** → **Manage R2 API Tokens**
-→ Object Read & Write on `reelvideoproduction-boards`.
+→ Object Read & Write on `dreamvideo-boards`.
 
 **Important:** Grok only injects `output.upload_url` when auth reports
 `is_zdr: true`. If the video API still returns the ZDR error while
@@ -98,7 +98,7 @@ case pick one of:
 2. Ask a team admin to turn **team ZDR** on so Grok treats the account as ZDR
    and starts injecting the R2 URLs from the config above.
 
-agent-canvas still supports `CANVAS_S3_*` / `CANVAS_UPLOAD_URL` as an extra
+DreamVideo still supports `CANVAS_S3_*` / `CANVAS_UPLOAD_URL` as an extra
 relay for tooling experiments; the path that actually works with Grok Build
 is `tools.zdr_video_output_s3`.
 
@@ -107,7 +107,7 @@ is `tools.zdr_video_output_s3`.
 The shot is marked `blocked` with the API's own words, and the run moves on.
 `blocked` is deliberately distinct from `error`: an error might succeed on
 retry, while blocked means the configuration forbids it and retrying just burns
-money. `canvas run --force` overrides it if you want to try anyway.
+money. `dream-video run --force` overrides it if you want to try anyway.
 
 ## What this tool will never do
 

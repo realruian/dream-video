@@ -4,5 +4,5 @@ node_modules/
 .env
 .env.local
 
-# Local canvas workspace (run `canvas init` after clone)
+# Local DreamVideo workspace (run `dream-video init` after clone)
 canvas/

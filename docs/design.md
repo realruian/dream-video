@@ -1,10 +1,11 @@
-# Design: agent-canvas
+# Design: DreamVideo
 
 *2026-08-08*
 
 ## What this is
 
-An agent-operated canvas for making short videos with Grok Build. An agent adds
+DreamVideo is an agent-assisted workspace for making short videos with Dreamina
+Seedance 2.5 or Grok. An agent adds
 shots through a CLI and opens a pull request; a human reviews the result in a
 browser, fixes prompts, and re-runs what needs re-running.
 
@@ -35,7 +36,7 @@ management, and coordinate persistence — and made the file readable in a diff.
 
 ### 2. Server-rendered HTML, zero client JavaScript
 
-`canvas serve` renders every page on the server. Interaction is plain form
+`dream-video serve` renders every page on the server. Interaction is plain form
 POSTs. Progress refreshes with `<meta refresh>`, only while a run is in flight.
 
 *Why:* the predecessor crashed the browser tab, repeatedly, and eventually made
@@ -117,24 +118,24 @@ tests.
 | `session-paths.ts` | Derive Grok's session dir; collect generated media |
 | `grok.ts` | The narrow doorway: one tool, no shell, structured result |
 | `runner.ts` | Orchestrate shots, own every filesystem decision |
-| `server.ts` | `canvas serve` — HTTP, no framework |
+| `server.ts` | `dream-video serve` — HTTP, no framework |
 | `views.ts` | HTML strings |
 | `cli.ts` | Agent interface, `--json` everywhere |
 
 ## Data flow
 
 ```
-agent: canvas add image --prompt "..." --json
+agent: dream-video add image --prompt "..." --json
         └─> project.json (status: pending)
 
-agent: canvas run --json
+agent: dream-video run --json
         └─> runner picks pending shots, images before videos
              └─> grok.ts: one tool, chosen --session-id
                   └─> agent generates into the session dir
              └─> runner copies bytes to canvas/assets/<id>.jpg
              └─> project.json (status: ready, hash: <inputs>)
 
-human: canvas serve  →  reads project.json, renders HTML
+human: dream-video serve  →  reads project.json, renders HTML
         └─> edits a prompt (form POST) → status: pending
         └─> Regenerate (form POST) → background run, page self-refreshes
 ```

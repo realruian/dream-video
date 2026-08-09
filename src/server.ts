@@ -1,5 +1,5 @@
 /**
- * `canvas serve` — the human's window into a canvas an agent is building.
+ * `dream-video serve` — the human review UI for a project an agent is building.
  *
  * Built on node:http with no framework and no dependencies. Every response is
  * either rendered HTML, a media file, or JSON; there is no client-side state to
@@ -57,7 +57,7 @@ function startRun(root: string, shotIds?: string[]): void {
       const project = await loadProject(root);
       await runProject(project, { root, shotIds });
     } catch (err) {
-      console.error("[canvas] run failed:", err instanceof Error ? err.message : err);
+      console.error("[dream-video] run failed:", err instanceof Error ? err.message : err);
     } finally {
       running = false;
     }

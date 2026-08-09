@@ -1,6 +1,6 @@
 # DreamVideo
 
-一个面向 Coding Agent 的本地 AI 短视频画布，以 **Dreamina Seedance 2.5** 作为默认视频模型。
+**DreamVideo** 是一个面向 Coding Agent 的本地 AI 短视频创作工作台，以 **Dreamina Seedance 2.5** 作为默认视频模型。
 
 它把一句创意拆成可审阅、可修改、可重复生成的完整链路：
 
@@ -76,13 +76,13 @@ dreamina login
 初始化项目：
 
 ```bash
-npm run canvas -- init "我的短片"
+npm run dream-video -- init "我的短片"
 ```
 
 启动本地审阅画布：
 
 ```bash
-npm run canvas -- serve --no-open
+npm run dream-video -- serve --no-open
 ```
 
 访问：<http://localhost:4180>
@@ -90,19 +90,19 @@ npm run canvas -- serve --no-open
 添加故事板：
 
 ```bash
-npm run canvas -- add image \
+npm run dream-video -- add image \
   --provider codex \
   --aspect 9:16 \
   --id img-1 \
   --prompt "一张完整的 8 格竖屏电影故事板，统一人物和场景，无文字，无水印"
 
-npm run canvas -- storyboard set img-1
+npm run dream-video -- storyboard set img-1
 ```
 
 创建场景：
 
 ```bash
-npm run canvas -- scene add \
+npm run dream-video -- scene add \
   --name "Opening" \
   --panels 1-4 \
   --provider codex \
@@ -119,7 +119,7 @@ npm run canvas -- scene add \
 可以在 UI 中逐个点击 Generate / Animate，也可以明确指定镜头：
 
 ```bash
-npm run canvas -- run --shot vid-1
+npm run dream-video -- run --shot vid-1
 ```
 
 生成会消耗 Provider 额度。请在运行前检查 Prompt、参考图和目标镜头，避免直接运行全部 pending 任务。
@@ -128,20 +128,20 @@ npm run canvas -- run --shot vid-1
 
 | 命令 | 用途 |
 |---|---|
-| `canvas init [name]` | 创建 `canvas/project.json` |
-| `canvas storyboard set <id>` | 设置主故事板 |
-| `canvas scene add ...` | 创建三张关键帧和一个视频节点 |
-| `canvas add image ...` | 添加自由图片节点 |
-| `canvas add video ...` | 添加自由视频节点 |
-| `canvas set <id> --prompt ...` | 修改 Prompt 并标记为 pending |
-| `canvas run [--shot id]` | 生成全部或指定镜头 |
-| `canvas status` | 查看项目和生成状态 |
-| `canvas serve --no-open` | 启动本地审阅界面 |
+| `dream-video init [name]` | 创建 `canvas/project.json` |
+| `dream-video storyboard set <id>` | 设置主故事板 |
+| `dream-video scene add ...` | 创建三张关键帧和一个视频节点 |
+| `dream-video add image ...` | 添加自由图片节点 |
+| `dream-video add video ...` | 添加自由视频节点 |
+| `dream-video set <id> --prompt ...` | 修改 Prompt 并标记为 pending |
+| `dream-video run [--shot id]` | 生成全部或指定镜头 |
+| `dream-video status` | 查看项目和生成状态 |
+| `dream-video serve --no-open` | 启动本地审阅界面 |
 
 新场景默认使用 Dreamina：
 
 ```bash
-npm run canvas -- scene add \
+npm run dream-video -- scene add \
   --name "Scene 1" \
   --video-provider dreamina
 ```
@@ -149,7 +149,7 @@ npm run canvas -- scene add \
 自由视频节点也可以明确选择 Provider：
 
 ```bash
-npm run canvas -- add video \
+npm run dream-video -- add video \
   --from img-2 \
   --refs img-3,img-4 \
   --provider dreamina \

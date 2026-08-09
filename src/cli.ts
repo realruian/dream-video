@@ -123,31 +123,31 @@ function parseRefList(raw: string | undefined): string[] | undefined {
 
 class UsageError extends Error {}
 
-const HELP = `agent-canvas — an agent-operated canvas for short videos
+const HELP = `DreamVideo — agent-assisted short-video creation with Seedance 2.5
 
 Structure
   storyboard (1 multi-panel image)
     └── scene (~6s): first + middle + last frames → video
 
 Usage
-  canvas init [name]                          Create canvas/project.json
-  canvas storyboard set <image-id>            Mark image as master storyboard
-  canvas scene add --name <text>              Scaffold scene (3 frames + video)
+  dream-video init [name]                          Create canvas/project.json
+  dream-video storyboard set <image-id>            Mark image as master storyboard
+  dream-video scene add --name <text>              Scaffold scene (3 frames + video)
         [--panels 1-4] [--provider codex|grok]
         [--video-provider dreamina|grok]
         [--duration 6|10] [--storyboard <id>]
-  canvas add image --prompt <text>            Add a free image shot
+  dream-video add image --prompt <text>            Add a free image shot
         [--aspect 9:16|1:1|16:9|4:3|3:4]
         [--provider grok|codex] [--id <id>]
         [--refs img-1,img-2]
-  canvas add video --from <id> --prompt <t>   Add a free video shot
+  dream-video add video --from <id> --prompt <t>   Add a free video shot
         [--provider dreamina|grok] [--duration 6|10]
         [--id <id>] [--refs img-1]
-  canvas set <id> --prompt <text>             Rewrite a prompt (marks it pending)
-  canvas rm <id>                              Remove a shot
-  canvas run [--shot <id>] [--force]          Generate pending shots
-  canvas status                               Show storyboard, scenes, shots
-  canvas serve [--port 4180] [--no-open]      Human review UI
+  dream-video set <id> --prompt <text>             Rewrite a prompt (marks it pending)
+  dream-video rm <id>                              Remove a shot
+  dream-video run [--shot <id>] [--force]          Generate pending shots
+  dream-video status                               Show storyboard, scenes, shots
+  dream-video serve [--port 4180] [--no-open]      Human review UI
 
 Global
   --root <dir>   Project root (default: cwd)
@@ -166,12 +166,12 @@ function printProject(project: Project, json: boolean): void {
     return;
   }
   if (project.shots.length === 0) {
-    console.log("No shots yet. Try: canvas add image --prompt \"a goat on a hill\"");
+    console.log("No shots yet. Try: dream-video add image --prompt \"a goat on a hill\"");
     return;
   }
   console.log(`${project.name}  (${project.shots.length} shots · ${project.scenes.length} scenes)`);
   console.log(
-    `  storyboard: ${project.storyboardId ?? "(none — canvas storyboard set <img-id>)"}`,
+    `  storyboard: ${project.storyboardId ?? "(none — dream-video storyboard set <img-id>)"}`,
   );
   for (const scene of project.scenes) {
     const panels = scene.panels ? ` panels ${scene.panels}` : "";
@@ -222,7 +222,7 @@ async function main(argv: string[]): Promise<number> {
       else {
         console.log(`Created ${root}/canvas/project.json`);
         console.log("");
-        console.log("Flow: storyboard image → canvas storyboard set <id> → canvas scene add --name …");
+        console.log("Flow: storyboard image → dream-video storyboard set <id> → dream-video scene add --name …");
         console.log("Video: dreamina login (Seedance 2.5 VIP), or Grok via --video-provider grok");
       }
       return 0;
@@ -230,9 +230,9 @@ async function main(argv: string[]): Promise<number> {
 
     case "storyboard": {
       const sub = args.positional[1];
-      if (sub !== "set") throw new UsageError("Usage: canvas storyboard set <image-id>");
+      if (sub !== "set") throw new UsageError("Usage: dream-video storyboard set <image-id>");
       const imageId = args.positional[2];
-      if (!imageId) throw new UsageError("Usage: canvas storyboard set <image-id>");
+      if (!imageId) throw new UsageError("Usage: dream-video storyboard set <image-id>");
       const project = setStoryboard(await loadProject(root), imageId);
       await saveProject(root, project);
       if (json) console.log(JSON.stringify({ ok: true, storyboardId: imageId }, null, 2));
@@ -242,7 +242,7 @@ async function main(argv: string[]): Promise<number> {
 
     case "scene": {
       const sub = args.positional[1];
-      if (sub !== "add") throw new UsageError("Usage: canvas scene add --name <text> …");
+      if (sub !== "add") throw new UsageError("Usage: dream-video scene add --name <text> …");
       const name = str(args, "name");
       if (!name) throw new UsageError("--name is required");
       const provider = (str(args, "provider") ?? "codex") as ImageProvider;
@@ -354,13 +354,13 @@ async function main(argv: string[]): Promise<number> {
         return 0;
       }
 
-      throw new UsageError("canvas add <image|video>");
+      throw new UsageError("dream-video add <image|video>");
     }
 
     case "set": {
       const id = args.positional[1];
       const prompt = str(args, "prompt");
-      if (!id) throw new UsageError("canvas set <id> --prompt <text>");
+      if (!id) throw new UsageError("dream-video set <id> --prompt <text>");
       if (!prompt) throw new UsageError("--prompt is required");
       const project = await loadProject(root);
       const next = await saveProject(root, updateShot(project, id, { prompt, status: "pending" }));
@@ -371,7 +371,7 @@ async function main(argv: string[]): Promise<number> {
 
     case "rm": {
       const id = args.positional[1];
-      if (!id) throw new UsageError("canvas rm <id>");
+      if (!id) throw new UsageError("dream-video rm <id>");
       const project = await loadProject(root);
       await saveProject(root, removeShot(project, id));
       if (json) console.log(JSON.stringify({ ok: true, removed: id }, null, 2));
@@ -418,7 +418,7 @@ async function main(argv: string[]): Promise<number> {
       await loadProject(root); // Fail fast if there is no canvas here.
       const { port: bound } = await serve({ root, port });
       const url = `http://localhost:${bound}`;
-      console.log(`Canvas review UI  →  ${url}`);
+      console.log(`DreamVideo review UI  →  ${url}`);
       console.log("Ctrl-C to stop.");
       // Agents and headless runs pass --no-open (or --json); humans get a tab.
       if (!noOpen && !json) openBrowser(url);

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
- * Thin launcher so `canvas ...` works without a build step. The CLI is
+ * Thin launcher for the `dream-video` command. The legacy `canvas` alias uses
+ * the same entry point. The CLI is
  * TypeScript run through tsx; this shim just forwards argv and the exit code.
  */
 import { spawn } from "node:child_process";

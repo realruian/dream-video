@@ -1,16 +1,18 @@
 {
   "name": "dream-video",
   "version": "0.1.0",
-  "description": "Local AI video canvas with Dreamina Seedance 2.5",
+  "description": "Agent-assisted short-video workflow powered by Dreamina Seedance 2.5",
   "license": "MIT",
   "type": "module",
   "bin": {
-    "canvas": "./bin/canvas.js"
+    "dream-video": "./bin/dream-video.js",
+    "canvas": "./bin/dream-video.js"
   },
   "engines": {
     "node": ">=20"
   },
   "scripts": {
+    "dream-video": "node --import tsx src/cli.ts",
     "canvas": "node --import tsx src/cli.ts",
     "test": "node --import tsx --test test/*.test.ts",
     "typecheck": "tsc --noEmit"

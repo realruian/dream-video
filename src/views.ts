@@ -303,9 +303,9 @@ export function renderPage(project: Project, root: string): string {
       summary,
       refresh,
       `<p class="empty">No shots yet.<br><br>
-       <code>canvas add image --prompt "8-panel storyboard…" --provider codex</code><br>
-       <code>canvas storyboard set img-1</code><br>
-       <code>canvas scene add --name "Ride" --panels 1-4</code></p>`,
+       <code>dream-video add image --prompt "8-panel storyboard…" --provider codex</code><br>
+       <code>dream-video storyboard set img-1</code><br>
+       <code>dream-video scene add --name "Ride" --panels 1-4</code></p>`,
     );
   }
 
@@ -326,7 +326,7 @@ export function renderPage(project: Project, root: string): string {
       </section>`
     : `<section class="section storyboard">
         <div class="section-head"><h2>Storyboard</h2>
-        <span class="sub">Not set — generate a multi-panel image, then <code>canvas storyboard set &lt;id&gt;</code></span></div>
+        <span class="sub">Not set — generate a multi-panel image, then <code>dream-video storyboard set &lt;id&gt;</code></span></div>
       </section>`;
 
   const scenesHtml = project.scenes.map((s) => sceneSection(project, s)).join("\n");
@@ -353,7 +353,7 @@ export function renderPage(project: Project, root: string): string {
     summary,
     refresh,
     `${storyboardHtml}
-     ${scenesHtml || `<p class="sub" style="margin:0 0 20px">No scenes yet. <code>canvas scene add --name "Scene 1" --panels 1-4</code></p>`}
+     ${scenesHtml || `<p class="sub" style="margin:0 0 20px">No scenes yet. <code>dream-video scene add --name "Scene 1" --panels 1-4</code></p>`}
      ${orphansHtml}`,
   );
 }
@@ -369,7 +369,7 @@ function pageShell(
 <html lang="en"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${escapeHtml(project.name)} — agent canvas</title>
+<title>${escapeHtml(project.name)} — DreamVideo</title>
 ${refresh}
 <style>${STYLES}</style>
 </head><body>

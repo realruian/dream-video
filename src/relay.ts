@@ -68,7 +68,7 @@ function s3Relay(config: S3Config, putUrl: string, key: string): RelayHandle {
         await deleteObject(config, key);
       } catch {
         // Local copy is what matters; leave a breadcrumb on stderr.
-        console.error(`[canvas] warning: could not delete relay object ${key}`);
+        console.error(`[dream-video] warning: could not delete relay object ${key}`);
       }
       return dest;
     },

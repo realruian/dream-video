@@ -1,25 +1,25 @@
 ---
 name: dream-video
 description: >
-  Operate DreamVideo (agent-canvas): storyboard → scenes → first/mid/last frames →
+  Operate DreamVideo: storyboard → scenes → first/mid/last frames →
   Dreamina Seedance or Grok video, with Codex or Grok stills. Use when the user mentions
-  DreamVideo, dream video, agent-canvas, canvas storyboard, short video canvas, scene frames,
+  DreamVideo, dream video, dream-video storyboard, short video canvas, scene frames,
   reference_to_video, codex storyboard, or runs /dream-video. Also when scaffolding
   multi-panel boards, 6s scene videos, or continuing a visual story with style refs.
 ---
 
 # DreamVideo
 
-Agent-operated short-video canvas. CLI + local review UI. Auth is **CLI login**
+DreamVideo is an agent-assisted short-video workspace. Auth is **CLI login**
 (`dreamina login`, `grok login`, optional `codex login`) — no API keys in the project.
 
-Repo: https://github.com/realruian/dream-video  
-Work from the package root (e.g. `agent-canvas/` or a clone of `dream-video`).
+Repo: https://github.com/realruian/dream-video
+Work from the package root (e.g. `dream-video/`).
 
 ## Non-negotiables
 
-1. **Serve the UI first; humans generate.** Prefer `canvas serve` and let the
-   user click Generate / Animate. Only run `canvas run` when they explicitly ask
+1. **Serve the UI first; humans generate.** Prefer `dream-video serve` and let the
+   user click Generate / Animate. Only run `dream-video run` when they explicitly ask
    you to generate, or when scaffolding empty pending shots they will run later.
 2. **Never invent infra.** No tunnels, no public PUT servers, no `--yolo` with a
    shell to “just make the video appear.” See `docs/zdr.md`.
@@ -71,8 +71,8 @@ configure `tools.zdr_video_output_s3` in `~/.grok/config.toml` (see `docs/zdr.md
 ### 1. Init + UI
 
 ```bash
-npm run canvas -- init "my short"
-npm run canvas -- serve --port 4180   # open browser; restart after code changes
+npm run dream-video -- init "my short"
+npm run dream-video -- serve --port 4180   # open browser; restart after code changes
 ```
 
 After any code change that affects serve/UI, **restart serve** and tell the user
@@ -83,9 +83,9 @@ to refresh.
 Prefer **Codex** for multi-panel boards when the user wants that; otherwise Grok.
 
 ```bash
-npm run canvas -- add image --provider codex --aspect 16:9 --id img-1 \
+npm run dream-video -- add image --provider codex --aspect 16:9 --id img-1 \
   --prompt "ONE single image: N-panel storyboard grid … consistent character … style … NO text, NO watermark"
-npm run canvas -- storyboard set img-1
+npm run dream-video -- storyboard set img-1
 ```
 
 Prompt rules for boards:
@@ -94,12 +94,12 @@ Prompt rules for boards:
 - Style lock phrase (Pixar, live action, etc.) and “same character in every panel”.
 - Forbid text, captions, speech bubbles, watermarks.
 
-User generates the board in the UI (or `canvas run --shot img-1` if asked).
+User generates the board in the UI (or `dream-video run --shot img-1` if asked).
 
 ### 3. Scenes (3 frames + video)
 
 ```bash
-npm run canvas -- scene add --name "Ride and trip" --panels 1-4 --provider codex --video-provider dreamina --duration 6
+npm run dream-video -- scene add --name "Ride and trip" --panels 1-4 --provider codex --video-provider dreamina --duration 6
 ```
 
 Optional overrides: `--first-prompt`, `--middle-prompt`, `--last-prompt`,
@@ -115,11 +115,11 @@ continuing a story — style will drift.
 ### 4. User generates
 
 Order in UI / run:
-1. Storyboard ready  
-2. Scene frames (first, mid, last)  
-3. Scene video  
+1. Storyboard ready
+2. Scene frames (first, mid, last)
+3. Scene video
 
-Status: `npm run canvas -- status`.
+Status: `npm run dream-video -- status`.
 
 ## Prompt recipes
 
@@ -143,23 +143,23 @@ Clear beats, no on-screen text.
 ### Continuity / next board
 
 ```bash
-npm run canvas -- add image --provider codex --refs img-1 --prompt "ONE image, 4-panel grid, CONTINUATION of attached board…"
+npm run dream-video -- add image --provider codex --refs img-1 --prompt "ONE image, 4-panel grid, CONTINUATION of attached board…"
 ```
 
 ## Commands cheat sheet
 
 | Command | Purpose |
 |---|---|
-| `canvas init [name]` | Create `canvas/project.json` |
-| `canvas storyboard set <img-id>` | Mark master board |
-| `canvas scene add --name … [--panels …]` | Scaffold 3 frames + video |
-| `canvas add image … [--provider codex\|grok] [--refs a,b]` | Free image |
-| `canvas add video --from <id> [--provider dreamina\|grok] [--refs a,b] [--duration 6\|10]` | Free video |
-| `canvas set <id> --prompt …` | Edit prompt (marks pending) |
-| `canvas rm <id>` | Remove shot (blocked if scene-wired) |
-| `canvas run [--shot id] [--force]` | Generate (only if user asked) |
-| `canvas status` | Structure + shot states |
-| `canvas serve [--port 4180] [--no-open]` | Review UI |
+| `dream-video init [name]` | Create `canvas/project.json` |
+| `dream-video storyboard set <img-id>` | Mark master board |
+| `dream-video scene add --name … [--panels …]` | Scaffold 3 frames + video |
+| `dream-video add image … [--provider codex\|grok] [--refs a,b]` | Free image |
+| `dream-video add video --from <id> [--provider dreamina\|grok] [--refs a,b] [--duration 6\|10]` | Free video |
+| `dream-video set <id> --prompt …` | Edit prompt (marks pending) |
+| `dream-video rm <id>` | Remove shot (blocked if scene-wired) |
+| `dream-video run [--shot id] [--force]` | Generate (only if user asked) |
+| `dream-video status` | Structure + shot states |
+| `dream-video serve [--port 4180] [--no-open]` | Review UI |
 
 `--json` on any command for machine-readable output.
 
@@ -183,15 +183,15 @@ npm run canvas -- add image --provider codex --refs img-1 --prompt "ONE image, 4
 
 ## Anti-patterns
 
-- Running full `canvas run` unprompted while the user is driving the UI  
-- Feeding **video files** into `reference_to_video`  
-- Generating scene frames **without** storyboard refs  
-- One video for an 8-panel arc without splitting into scenes  
-- Standing up tunnels or public upload endpoints for ZDR  
-- Committing `.env` or `canvas/assets/` to git  
+- Running full `dream-video run` unprompted while the user is driving the UI
+- Feeding **video files** into `reference_to_video`
+- Generating scene frames **without** storyboard refs
+- One video for an 8-panel arc without splitting into scenes
+- Standing up tunnels or public upload endpoints for ZDR
+- Committing `.env` or `canvas/assets/` to git
 
 ## When to read more
 
-- `README.md` — install, requirements, commands  
-- `docs/zdr.md` — privacy, ZDR, R2  
-- `docs/design.md` — why list + SSR UI, not React Flow  
+- `README.md` — install, requirements, commands
+- `docs/zdr.md` — privacy, ZDR, R2
+- `docs/design.md` — why list + SSR UI, not React Flow

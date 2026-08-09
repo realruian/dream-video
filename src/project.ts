@@ -74,7 +74,7 @@ export async function loadProject(root: string): Promise<Project> {
   } catch (err) {
     if ((err as NodeJS.ErrnoException).code === "ENOENT") {
       throw new Error(
-        `No canvas found at ${projectPath(root)}. Run \`canvas init\` first.`,
+        `No DreamVideo project found at ${projectPath(root)}. Run \`dream-video init\` first.`,
       );
     }
     throw err;
@@ -275,7 +275,7 @@ export function addScene(
   const boardId = options.storyboardId ?? project.storyboardId;
   if (!boardId) {
     throw new Error(
-      "No storyboard set. Add a multi-panel image, then: canvas storyboard set <id>",
+      "No storyboard set. Add a multi-panel image, then: dream-video storyboard set <id>",
     );
   }
   const board = findShot(project, boardId);
