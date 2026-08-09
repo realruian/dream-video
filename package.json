@@ -1,0 +1,33 @@
+{
+  "name": "reel-video-dreamina",
+  "version": "0.1.0",
+  "description": "Local AI video canvas with Dreamina Seedance 2.5",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "canvas": "./bin/canvas.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "canvas": "node --import tsx src/cli.ts",
+    "test": "node --import tsx --test test/*.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.8.3"
+  },
+  "keywords": [
+    "ai",
+    "video",
+    "canvas",
+    "dreamina",
+    "seedance",
+    "grok",
+    "codex",
+    "agents"
+  ]
+}
